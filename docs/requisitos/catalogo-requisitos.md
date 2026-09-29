@@ -2,10 +2,10 @@
 
 ## Catálogo de requisitos
 
-**Versión:** 1.10  
-**Fecha:** 23/09/2026  
-**Estado:** Base funcional consolidada: UR y FR canónicos; NFR pendientes  
-**Fuente de verdad:** este catálogo contiene el texto canónico de los requisitos de usuario (UR) y funcionales (FR). Incorporará también los requisitos no funcionales (NFR) cuando se consoliden.
+**Versión:** 1.11  
+**Fecha:** 29/09/2026  
+**Estado:** Base funcional consolidada: UR y FR canónicos; NFR propuestos, pendientes de contraste  
+**Fuente de verdad:** este catálogo contiene el texto canónico de los requisitos de usuario (UR) y funcionales (FR). Incorpora también los requisitos no funcionales (NFR) en estado `Propuesto`, hasta que se contrasten con el cuaderno de revisión de requisitos.
 
 Este documento complementa la [Especificación de requisitos de software](./srs.md). La SRS organiza el contexto, el alcance, las decisiones pendientes y los modelos; este catálogo conserva una única copia de cada requisito y sus relaciones.
 
@@ -276,32 +276,68 @@ FR-017 se conserva para no perder el identificador histórico, pero su estado es
 
 ## 5. Requisitos no funcionales
 
-| ID | Categoría y atributo | Requisito no funcional | Ámbito (Global/Local) | UR/FR relacionados | Método de comprobación | Estado |
-| --- | --- | --- | --- | --- | --- | --- |
-| NFR-07 |NFR-Q (Eficiencia; Escalabilidad; Mantenibilidad) |La plataforma mantendrá los objetivos de capacidad y rendimiento definidos para la primera versión sin intervención manual del personal de la organización.| G | -  | Prueba de carga automatizada con 100 usuarios concurrentes y 10 operaciones/s durante 30 min; comprobar mediante registros de monitorización, ausencia de intervención manual. | - |
+Todos los NFR están en estado `Propuesto`: proceden de las actas del proyecto y aún no se han contrastado con el cuaderno de revisión de requisitos. Cuando el acta de acuerdos técnicos y operativos concreta una formulación anterior, prevalece esa acta.
 
-Categorías y atributos: 
-1) Requisitos de calidad (NFR-Q): Rendimiento, Usabilidad, Seguridad, Fiabilidad, Disponibilidad, Modificabilidad, Portabilidad, Eficiencia, Escalabilidad, Verificabilidad / Testabilidad, Robustez, Seguridad funcional (safety), Integridad, Reusabilidad, Instalabilidad.
-2) Restricciones (NFR-R): Tecnología y entorno, Hardware, Regulaciones y estándares, Compatibilidad, Interfaces existentes, Restricciones presupuestarias y de gestión.
-3) Requisitos de interfaz externa (NFR-I): Interfaz de usuario, Interfaz de software, Interfaz de hardware, Interfaz de comunicación
+| ID | Categoría y atributo | Requisito no funcional | Ámbito (Global/Local) | UR/FR relacionados | Método de comprobación | Fuente | Estado |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| NFR-01 | NFR-Q (Rendimiento: tiempo de respuesta de consulta) | Con 100 usuarios concurrentes y al menos 10 operaciones por segundo, el 95 % de las operaciones de inicio de sesión, consulta del perfil, búsqueda de recetas, consulta de recetas y consulta del foro se completará en un máximo de 2 segundos, medidos desde que la plataforma recibe la solicitud hasta que envía la respuesta completa, sin incluir la transferencia de archivos ni el tiempo de respuesta de servicios externos. | L | UR-02, UR-03, UR-04, UR-08 / FR-015, FR-085, FR-195 | Prueba de rendimiento de 30 minutos con 100 usuarios concurrentes y al menos 10 operaciones/s; calcular el percentil 95 del tiempo de cada tipo de operación a partir de los registros de la plataforma y comprobar que es de 2 s o menos. | Acta técnica 2.1.2, 2.1.3 | Propuesto |
+| NFR-02 | NFR-Q (Rendimiento: tiempo de respuesta de publicación) | Con 100 usuarios concurrentes y al menos 10 operaciones por segundo, el 95 % de las operaciones de publicación de recetas, comentarios o mensajes se completará en un máximo de 3 segundos, medidos desde que la plataforma recibe la solicitud hasta que envía la respuesta completa, sin incluir la transferencia de archivos ni el tiempo de respuesta de servicios externos. | L | UR-04, UR-06, UR-11 / FR-023, FR-054, FR-156, FR-196 | Misma prueba de rendimiento que NFR-01; calcular el percentil 95 del tiempo de publicación de recetas, comentarios y mensajes y comprobar que es de 3 s o menos. | Acta técnica 2.1.2, 2.1.3 | Propuesto |
+| NFR-03 | NFR-Q (Capacidad) | La primera versión admitirá al menos 100 usuarios conectados al mismo tiempo. | G | - | Prueba de rendimiento con 100 usuarios concurrentes y al menos 10 operaciones/s durante 30 minutos, registrando el comportamiento de la plataforma durante toda la prueba y aplicando los umbrales de NFR-01 y NFR-02. | Acta técnica 2.1.1, 2.1.2; Acta técnica apdo. 1 (los 500 usuarios activos mensuales son un criterio de negocio, no una carga concurrente) | Propuesto |
+| NFR-04 | NFR-Q (Disponibilidad) | La plataforma ofrecerá servicio las 24 horas del día con una disponibilidad mínima del 99,5 % en cada mes natural. Los mantenimientos planificados no contarán como indisponibilidad si se anuncian con al menos 48 horas de antelación y no superan 4 horas en el mismo mes; el tiempo que supere ese límite sí contará. | G | - | Comprobación automática cada 5 minutos desde un sistema externo a la plataforma; una comprobación falla si no se puede acceder a la plataforma o utilizar sus funciones principales. Calcular cada mes el porcentaje de comprobaciones correctas (99,5 % o más) y revisar la antelación del aviso y la duración de cada mantenimiento. | Acta técnica 2.1.4, 2.1.5 | Propuesto |
+| NFR-05 | NFR-Q (Recuperación) | Tras un incidente grave, la plataforma recuperará sus funciones principales en un máximo de 4 horas desde la declaración del incidente, con una pérdida de información no superior a las 24 horas anteriores al incidente. | G | - | Simulacro de incidente grave con restauración desde copia: medir el tiempo desde la declaración hasta la recuperación de las funciones principales (4 h o menos) y comparar el dato más reciente recuperado con el momento del incidente (24 h o menos). | Acta técnica 2.2.1 | Propuesto |
+| NFR-06 | NFR-Q (Fiabilidad; Verificabilidad / Testabilidad: copias de seguridad) | La plataforma realizará al menos una copia de seguridad diaria de la información de salud y de las recetas, y su validez se comprobará mediante una prueba de restauración al menos una vez cada tres meses que deje constancia de la fecha, el resultado y las incidencias encontradas. | G | UR-05, UR-06 | Revisar los registros de copias (una por día como mínimo) y las constancias de las pruebas de restauración de los últimos tres meses, verificando que incluyen fecha, resultado e incidencias. | Acta técnica 2.2.1, 2.2.2 | Propuesto |
+| NFR-07 | NFR-Q (Eficiencia; Escalabilidad; Mantenibilidad) | La plataforma mantendrá los objetivos de capacidad y rendimiento de la primera versión (NFR-01, NFR-02 y NFR-03) aumentando automáticamente sus recursos cuando crezca la carga, sin intervención manual del personal de la organización. | G | - | Prueba de carga automatizada con 100 usuarios concurrentes y 10 operaciones/s durante 30 min; comprobar mediante registros de monitorización, ausencia de intervención manual. | Acta técnica 2.1.1 | Propuesto |
+| NFR-08 | NFR-Q (Seguridad: confidencialidad y control de acceso) | La información de salud de un paciente solo será accesible para el propio paciente, para el cuidador con asociación vigente y únicamente en los datos que el paciente haya autorizado expresamente, y para los nutricionistas a quienes el paciente haya concedido acceso mientras no lo revoque. La condición de nutricionista no dará acceso automático, y el cuidador no accederá a datos personales como la dirección o el teléfono. | L | UR-01, UR-05, UR-13 / FR-045, FR-194, FR-198, FR-201, FR-208 | Pruebas de autorización por rol; el acceso debe ser denegado en el 100 % de estos casos: nutricionista sin autorización, nutricionista tras la revocación del paciente, cuidador tras dejar de estar asociado, cuidador sobre datos de salud no autorizados y cuidador sobre dirección o teléfono. | Acta técnica 2.2.3; Acta de captura apdos. 2 y 7.1 | Propuesto |
+| NFR-09 | NFR-Q (Usabilidad: accesibilidad) | Todas las pantallas y funciones incluidas en la primera versión cumplirán las Pautas de Accesibilidad para el Contenido Web WCAG 2.2 con nivel de conformidad AA. | G | - | Evaluación antes de aceptar la primera versión y tras cada cambio importante de la interfaz, con una herramienta automática y una revisión manual (teclado, orden del foco, textos alternativos, etiquetas de formularios, mensajes de error, contraste y lector de pantalla) en los recorridos de registro, inicio de sesión, búsqueda y consulta de recetas, publicación en el foro y consulta del perfil. No debe quedar ningún incumplimiento de nivel A o AA en lo evaluado. | Acta técnica 2.4.2, 2.4.3; Acta de captura apdo. 7.3 | Propuesto |
+| NFR-10 | NFR-R (Tecnología y entorno; Compatibilidad: plataforma web) | El acceso a la plataforma se realizará mediante una interfaz web responsiva basada en estándares web abiertos (HTML5, CSS y ECMAScript), sin aplicación móvil nativa, aplicación de escritorio independiente, plugins propietarios ni software adicional en el dispositivo de la persona usuaria. | G | - | Revisar la arquitectura y las dependencias del cliente, y acceder a las funciones principales desde un ordenador y un dispositivo móvil con los navegadores compatibles (Chrome, Safari, Brave, DuckDuckGo, Opera y Edge, como ejemplos considerados) sin instalar nada adicional. | Acta técnica 2.5.1, 2.5.3; Acta de captura apdo. 7.4 | Propuesto |
+| NFR-11 | NFR-R (Tecnología y entorno: despliegue) | La plataforma se desplegará en una infraestructura en la nube gestionada por un proveedor externo. | G | - | Revisar la arquitectura y la configuración del despliegue, comprobando que los componentes de la plataforma se ejecutan en la infraestructura del proveedor externo. | Acta técnica 2.5.2, 2.5.3; Acta de captura apdo. 7.4 | Propuesto |
+| NFR-12 | NFR-I (Interfaz de usuario: idioma) | La interfaz de la primera versión estará disponible en castellano y gallego. La persona usuaria podrá cambiar el idioma entre ambos, y los textos de navegación, formularios, validaciones y mensajes se mostrarán íntegramente en el idioma seleccionado. | G | FR-103, FR-151 | Revisar todas las pantallas y mensajes de la primera versión en castellano y en gallego, comprobando que con cada idioma seleccionado no queda ningún texto de la interfaz en el otro. | Acta técnica 2.4.4; Acta de captura apdo. 7.2 | Propuesto |
+| NFR-13 | NFR-I (Interfaz de software: autenticación externa con Google) | La autenticación con cuenta de Google se realizará mediante OAuth 2.0 u OpenID Connect sobre HTTPS, y la plataforma no almacenará la contraseña de Google de la persona usuaria. | L | UR-01, UR-02 / FR-006, FR-018, FR-190 | Prueba de autenticación (registro e inicio de sesión) con una cuenta de Google de prueba y revisión de la configuración de la integración, comprobando el protocolo, el uso de HTTPS y que no se guarda ninguna contraseña de Google. | Acta técnica 2.3.1 | Propuesto |
+
+### 5.1. Categorías y atributos
+
+- **Requisitos de calidad (NFR-Q):** Rendimiento, Usabilidad, Seguridad, Fiabilidad, Disponibilidad, Modificabilidad, Portabilidad, Eficiencia, Escalabilidad, Verificabilidad / Testabilidad, Robustez, Seguridad funcional (safety), Integridad, Reusabilidad, Instalabilidad.
+- **Restricciones (NFR-R):** Tecnología y entorno, Hardware, Regulaciones y estándares, Compatibilidad, Interfaces existentes, Restricciones presupuestarias y de gestión.
+- **Requisitos de interfaz externa (NFR-I):** Interfaz de usuario, Interfaz de software, Interfaz de hardware, Interfaz de comunicación.
+
+### 5.2. Decisiones pendientes de NFR (para trasladar a la SRS)
+
+Ninguna de estas cuestiones está resuelta en las actas, por lo que no se han redactado como NFR.
+
+| N.º | Aspecto | Pregunta | Origen |
+| --- | --- | --- | --- |
+| 1 | Compatibilidad | ¿Qué versiones concretas de navegadores se consideran compatibles? | Acta de captura, apdos. 7.4 y 9; NFR-10 |
+| 2 | Disponibilidad | ¿Qué funciones se consideran «principales» para dar por fallida una comprobación de disponibilidad, y quién declara un «incidente grave» y cómo? | Acta técnica 2.1.4, 2.2.1; NFR-04, NFR-05 |
+| 3 | Mantenimiento | La franja de 02:00 a 06:00 (hora peninsular española) es solo un deseo «siempre que sea posible». ¿Se convierte en obligación verificable? | Acta técnica 2.1.5; NFR-04 |
+| 4 | Rendimiento | ¿Qué tiempo máximo se exige a las operaciones no cubiertas por la prueba: sugerencias de búsqueda, exportación a PDF y CSV, calculadora nutricional, comprobación de palabras prohibidas y «tiempo real» de valoraciones? ¿Y a la transferencia de archivos, excluida de la medición? | Acta técnica 2.1.3; FR-047, FR-048, FR-065, FR-100, FR-127, FR-166 |
+| 5 | Capacidad | ¿Qué volumen de usuarios totales, contenido y almacenamiento multimedia debe soportar la primera versión más allá de los 100 usuarios simultáneos? | NFR-03; FR-058, FR-071 |
+| 6 | Seguridad | ¿Se exige cifrado en tránsito para toda la plataforma (el acta solo menciona HTTPS en la integración con Google) y cifrado en reposo? ¿Cómo se almacenan las contraseñas? ¿Hay bloqueo tras intentos fallidos o caducidad de sesión? | Acta técnica 2.3.1; FR-013, FR-015, FR-016 |
+| 7 | Acceso a datos de salud | ¿Pueden el coordinador o el personal técnico acceder a los datos de salud de los pacientes? ¿Bajo qué condiciones? ¿Con qué mecanismo técnico se autoriza a un cuidador o nutricionista? | Acta de captura, apdo. 9; NFR-08 |
+| 8 | Normativa | ¿Qué normativa de protección de datos aplica (por ejemplo, RGPD y LOPDGDD, con los datos de salud como categoría especial) y qué obligaciones concretas se derivan? ¿Dónde debe alojarse la información? | Ninguna de las actas lo recoge; FR-005, FR-215, FR-020 |
+| 9 | Conservación y auditoría | ¿Durante cuánto tiempo se conservan los registros de auditoría y deben ser inalterables? ¿Cómo se concilia el derecho de supresión con la conservación del contenido tras eliminar una cuenta? | FR-020, FR-146, FR-185, FR-211 |
+| 10 | Proveedor y correo | ¿Qué proveedor de nube se usará y qué proveedor de correo para verificación y recuperación, con qué plazo máximo de entrega? | NFR-11; FR-003, FR-016 |
+| 11 | Moderación | Dado que la moderación se hace en horario de trabajo y sin servicio continuo, ¿qué plazo máximo se fija para revisar un reporte? | Acta de captura, apdo. 4; FR-136 |
+| 12 | Usabilidad | Además de WCAG 2.2 AA, ¿se quiere una condición medible de facilidad de uso (por ejemplo, tarea completada por personas nuevas sin ayuda)? | Acta técnica 2.4.2; UR-12 |
 
 ## 6. Matriz de trazabilidad
 
 | UR | FR asociados | NFR globales o ligados | UC relacionados |
 | --- | --- | --- | --- |
-| UR-01 | FR-001, FR-002, FR-003, FR-004, FR-005, FR-006, FR-007, FR-008, FR-009, FR-010, FR-011, FR-012, FR-013, FR-014, FR-188, FR-189, FR-190, FR-191, FR-192, FR-193, FR-194, FR-213, FR-214, FR-215 | — | — |
-| UR-02 | FR-015, FR-016, FR-017, FR-018 | — | — |
-| UR-03 | FR-019, FR-020 | — | — |
-| UR-04 | FR-021, FR-022, FR-023, FR-024, FR-025, FR-026, FR-027, FR-028, FR-029, FR-030, FR-031, FR-032, FR-033, FR-034, FR-035, FR-036, FR-037, FR-038, FR-039, FR-040, FR-195, FR-196, FR-197 | — | — |
-| UR-05 | FR-041, FR-042, FR-043, FR-044, FR-045, FR-046, FR-047, FR-048, FR-049, FR-050, FR-051, FR-052, FR-053, FR-198, FR-199, FR-200, FR-201, FR-202, FR-203, FR-216, FR-217 | — | — |
-| UR-06 | FR-054, FR-055, FR-056, FR-057, FR-058, FR-059, FR-060, FR-061, FR-062, FR-063, FR-064, FR-065, FR-066, FR-204, FR-205 | — | — |
+| UR-01 | FR-001, FR-002, FR-003, FR-004, FR-005, FR-006, FR-007, FR-008, FR-009, FR-010, FR-011, FR-012, FR-013, FR-014, FR-188, FR-189, FR-190, FR-191, FR-192, FR-193, FR-194, FR-213, FR-214, FR-215 | NFR-08, NFR-13 | — |
+| UR-02 | FR-015, FR-016, FR-017, FR-018 | NFR-01, NFR-13 | — |
+| UR-03 | FR-019, FR-020 | NFR-01 | — |
+| UR-04 | FR-021, FR-022, FR-023, FR-024, FR-025, FR-026, FR-027, FR-028, FR-029, FR-030, FR-031, FR-032, FR-033, FR-034, FR-035, FR-036, FR-037, FR-038, FR-039, FR-040, FR-195, FR-196, FR-197 | NFR-01, NFR-02 | — |
+| UR-05 | FR-041, FR-042, FR-043, FR-044, FR-045, FR-046, FR-047, FR-048, FR-049, FR-050, FR-051, FR-052, FR-053, FR-198, FR-199, FR-200, FR-201, FR-202, FR-203, FR-216, FR-217 | NFR-06, NFR-08 | — |
+| UR-06 | FR-054, FR-055, FR-056, FR-057, FR-058, FR-059, FR-060, FR-061, FR-062, FR-063, FR-064, FR-065, FR-066, FR-204, FR-205 | NFR-02, NFR-06 | — |
 | UR-07 | FR-067, FR-068, FR-069, FR-070, FR-071, FR-072, FR-073, FR-074, FR-075, FR-076, FR-077, FR-078, FR-079, FR-080, FR-081, FR-082, FR-083, FR-084, FR-206 | — | — |
-| UR-08 | FR-085, FR-086, FR-087, FR-088, FR-089, FR-090, FR-091, FR-092, FR-093, FR-094, FR-095, FR-096, FR-097, FR-098, FR-099, FR-100, FR-101, FR-102, FR-103, FR-104, FR-105, FR-106, FR-107, FR-108, FR-109, FR-110, FR-111, FR-112, FR-113, FR-114, FR-115, FR-116, FR-117, FR-118, FR-119 | — | — |
+| UR-08 | FR-085, FR-086, FR-087, FR-088, FR-089, FR-090, FR-091, FR-092, FR-093, FR-094, FR-095, FR-096, FR-097, FR-098, FR-099, FR-100, FR-101, FR-102, FR-103, FR-104, FR-105, FR-106, FR-107, FR-108, FR-109, FR-110, FR-111, FR-112, FR-113, FR-114, FR-115, FR-116, FR-117, FR-118, FR-119 | NFR-01 | — |
 | UR-09 | FR-120, FR-121, FR-122, FR-123, FR-124, FR-125, FR-126 | — | — |
 | UR-10 | FR-127, FR-128, FR-129, FR-130, FR-131, FR-132, FR-133, FR-134, FR-135, FR-136, FR-137, FR-138, FR-139, FR-142, FR-145, FR-146, FR-147, FR-148, FR-149, FR-150, FR-151, FR-152 | — | — |
-| UR-11 | FR-153, FR-154, FR-155, FR-156, FR-157, FR-158, FR-159, FR-160, FR-161, FR-162, FR-163, FR-164, FR-165, FR-166, FR-167, FR-168, FR-169, FR-170, FR-171 | — | — |
+| UR-11 | FR-153, FR-154, FR-155, FR-156, FR-157, FR-158, FR-159, FR-160, FR-161, FR-162, FR-163, FR-164, FR-165, FR-166, FR-167, FR-168, FR-169, FR-170, FR-171 | NFR-02 | — |
 | UR-12 | FR-172, FR-173, FR-174, FR-175, FR-176, FR-177, FR-178, FR-179, FR-180, FR-207 | — | — |
-| UR-13 | FR-181, FR-182, FR-183, FR-184, FR-185, FR-186, FR-187, FR-208, FR-209, FR-210, FR-211, FR-212 | — | — |
+| UR-13 | FR-181, FR-182, FR-183, FR-184, FR-185, FR-186, FR-187, FR-208, FR-209, FR-210, FR-211, FR-212 | NFR-08 | — |
+
+Los NFR globales (NFR-03, NFR-04, NFR-05, NFR-06 en su parte de calidad, NFR-07, NFR-09, NFR-10, NFR-11 y NFR-12) se aplican a toda la plataforma y no se enlazan a un UR concreto. NFR-06 aparece ligado a UR-05 y UR-06 por las copias de seguridad de la información de salud y de las recetas.
 
 ## 7. Control de cambios
 
@@ -309,6 +345,7 @@ Los identificadores no se reutilizan ni se renumeran. Cuando se acepta un cambio
 
 | Versión | Fecha | Cambios | Requisitos afectados | Fuente o evidencia |
 | --- | --- | --- | --- | --- |
+| 1.11 | 29/09/2026 | Se incorporan los NFR-01 a NFR-13 con estado Propuesto, se concreta el texto de NFR-07 para remitir a NFR-01, NFR-02 y NFR-03 e incluir el aumento automático de recursos, y se enlazan los NFR en la matriz de trazabilidad. | NFR-01–NFR-13 | Acta de acuerdos técnicos y operativos (24/09/2026); Acta de captura de requisitos generales v1.0 |
 | 1.10 | 23/09/2026 | Se sustituyen los intervalos por enumeraciones explícitas de FR en las asociaciones de los UR y en la matriz de trazabilidad. | UR-01–UR-13 | Mejora de legibilidad del catálogo |
 | 1.9 | 23/09/2026 | Se declara consolidada la base funcional de partida: contiene los UR y FR canónicos y mantiene los NFR pendientes. | UR-01–UR-13, FR-001–FR-217 | Catálogo canónico de requisitos, v2.0 |
 | 1.8 | 22/09/2026 | Se actualizan las asociaciones BO–UR en el catálogo. | BO-01–BO-06, UR-04–UR-13 | Análisis de trazabilidad del catálogo |
