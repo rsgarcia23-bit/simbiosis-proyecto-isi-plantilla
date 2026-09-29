@@ -4,7 +4,7 @@
 
 **Versión:** 0.10  
 **Fecha:** 23/09/2026  
-**Estado:** Base documental con UR y FR consolidados; NFR y glosario pendientes  
+**Estado:** Base documental con UR y FR consolidados; NFR pendientes; glosario incorporado  
 **Destinatarios:** partes interesadas del proyecto
 
 Este documento reúne la especificación de requisitos de software (SRS) de
@@ -15,7 +15,7 @@ parte de esta SRS, en la sección 9.
 En esta versión se fija la estructura y se incorpora el contexto confirmado en
 el Documento de Visión y Alcance y en el acta de captura de A03. Los requisitos
 de usuario y funcionales ya están consolidados en el catálogo. Los requisitos
-no funcionales y el glosario permanecen pendientes. Ningún apartado pendiente
+no funcionales permanecen pendientes. Ningún apartado pendiente
 autoriza a completar información por suposición.
 
 ## Índice
@@ -268,6 +268,16 @@ enlazar a los términos de esta sección, pero no los definirá de nuevo.
 
 | Término | Definición en Proyecto Simbiosis | Fuente |
 | --- | --- | --- |
+| **Enfermedades Inflamatorias Intestinales (EII)** | Grupo de enfermedades que constituye el contexto de salud al que se dirige Proyecto Simbiosis. La plataforma está orientada a ayudar a las personas con EII a gestionar su alimentación y controlar sus síntomas mediante recetas adaptadas. | Documento de Visión y Alcance, §1.2; UR-05 |
+| **Receta validada** | Receta que ha superado la validación de un nutricionista y que, por ello, puede identificarse mediante un distintivo visual en la plataforma. Una receta propuesta por un paciente o un cuidador permanece pendiente de validación hasta su revisión por un nutricionista. | Documento de Visión y Alcance; FR-204, FR-205 |
+| **Datos fisiológicos** | Datos relacionados con el estado físico del paciente que este puede introducir y gestionar en la plataforma, como peso, altura, presión arterial, frecuencia cardíaca y temperatura corporal, así como resultados de determinados análisis de laboratorio. | Documento de Visión y Alcance, §2.2; UR-05; FR-041, FR-042 |
+| **Datos de salud** | Información de salud que el paciente puede registrar y gestionar en la plataforma y cuyo acceso puede autorizar expresamente a determinados nutricionistas o cuidadores. | Documento de Visión y Alcance, §2.2; UR-05; FR-045, FR-201 |
+| **Restricción dietética** | Condición o criterio alimentario utilizado para clasificar y buscar recetas en la plataforma. Entre los ejemplos contemplados se encuentran las recetas veganas, sin gluten y bajas en carbohidratos. | Documento de Visión y Alcance, §1.2 y §2.1; UR-08; FR-093 |
+| **Nutricionista verificado** | Usuario con rol de nutricionista cuya condición de verificado permite realizar determinadas acciones reservadas a este perfil, como publicar consejos de vida saludable. Solo los nutricionistas verificados pueden publicar este tipo de contenido. | Documento de Visión y Alcance; FR-083, FR-206 |
+| **Consejo de vida saludable** | Publicación creada por un nutricionista para ofrecer información sobre nutrición, ejercicio o bienestar general. Puede incluir texto formateado, imágenes, vídeos y referencias o enlaces a estudios científicos o fuentes confiables. | Documento de Visión y Alcance, §2.2; UR-07; FR-067–FR-084 |
+| **Hilo de discusión** | Espacio del foro colaborativo iniciado por un usuario registrado para compartir opiniones o sugerencias, en el que se pueden responder publicaciones existentes y participar en la conversación. | Documento de Visión y Alcance, §2.2; UR-04; FR-021–FR-040 |
+| **Reporte** | Comunicación realizada por un usuario registrado para informar sobre contenido que considera inapropiado, como una receta, comentario, publicación o perfil de usuario. El reporte incluye una categoría y puede incorporar comentarios adicionales para aportar contexto. | Documento de Visión y Alcance, §3.1 y §3.3; UR-09; FR-120–FR-126 |
+| **Moderación de contenidos** | Conjunto de acciones destinadas a revisar y gestionar contenido reportado o inadecuado, aplicando las reglas de uso de la plataforma y garantizando un entorno seguro. | Documento de Visión y Alcance, §2.2 y §3.3; UR-10; FR-127–FR-152 |
 
 ## 10. Modelos de análisis
 
@@ -314,4 +324,4 @@ requisitos de usuario y funcionales ya están consolidados en el catálogo. El
 glosario forma parte de esta SRS.
 
 Antes de publicar la línea base v1.0 se consolidarán los requisitos no
-funcionales, el glosario y los enlaces de trazabilidad.
+funcionales y los enlaces de trazabilidad.
